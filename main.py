@@ -1,7 +1,11 @@
+from distutils import extension
 import discord
 from discord.ext import commands
-from core.classes import Cog_Extension
-import json,datetime,asyncio
+from core.classes import Cog_Ext
+import json,datetime,asyncio,os
+
+with open('settings.json','r',encoding='utf8') as jfile:
+    jdata = json.load(jfile)
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -13,8 +17,10 @@ bot = commands.Bot(command_prefix='!', intents = intents)
 async def on_ready():
     print("[Bot online]")
 
-@bot.event
-async def 
+for file in os.listdir('./cmds'):
+    if file.endswith('.py'):
+        name = file[:-3]
+        bot.load_extension(f'cmds.{name}')
 
-
-bot.run('OTMzMzQ3NDcxNTMzNDI4Nzg2.YegNkQ.QZgWVq5dHzUPr3VHDOcchA07DaI')
+if __name__ == "__main__":
+    bot.run(jdata['TOKEN'])
